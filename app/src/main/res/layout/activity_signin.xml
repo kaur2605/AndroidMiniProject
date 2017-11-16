@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/food"
+    tools:context="dk.ruc.gkaur.androidminiproject.SigninActivity">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editPhone"
+            android:hint="Phone number"
+            android:text="0988123344"
+            android:textColor="@android:color/white"
+            android:textSize="34sp"
+            android:inputType="phone"
+            app:met_baseColor="@android:color/white"
+            app:met_singleLineEllipsis="true"
+            app:met_maxCharacters="11"
+            />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editPassword"
+            android:hint="Password"
+            android:text="1234"
+            android:textColor="@android:color/white"
+            android:textSize="34sp"
+            android:inputType="textPassword"
+            app:met_baseColor="@android:color/white"
+            app:met_singleLineEllipsis="true"
+            app:met_maxCharacters="11"
+            />
+
+        <info.hoang8f.widget.FButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnsignin"
+            android:text="Sign in"
+
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_alignParentBottom = "true"
+            android:textColor="@android:color/white"
+            android:layout_weight="1"
+            app:buttonColor="@color/Btnsignin"
+            app:shadowColor="@android:color/black"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
