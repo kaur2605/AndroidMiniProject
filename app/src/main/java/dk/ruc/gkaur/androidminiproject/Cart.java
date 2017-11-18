@@ -31,51 +31,53 @@ public class Cart extends AppCompatActivity {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
+
     FirebaseDatabase database;
     DatabaseReference requests;
-    TextView txttotalprice;
+
+    TextView txtTotalPrice;
     FButton btnPlace;
 
-    List<Order> cart = new ArrayList<>();
-
-    CartAdapter adapter ;
-
+    List<Order>cart=new ArrayList<>();
+    CartAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        database = FirebaseDatabase.getInstance();
-        requests = database.getReference("Requests");
+        //firebase
+        database=FirebaseDatabase.getInstance();
+        requests=database.getReference("Requests");
 
-        recyclerView = (RecyclerView)findViewById(R.id.listCart);
+        //Init
+        recyclerView=(RecyclerView) findViewById(R.id.listCart);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        txttotalprice= (TextView)findViewById(R.id.total);
-        btnPlace = (FButton)findViewById(R.id.btncart);
 
-         btnPlace.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
+        txtTotalPrice=(TextView) findViewById(R.id.total);
+        btnPlace=(FButton)findViewById(R.id.btnPlaceOrder);
 
-                 showAlertDailog();
+        loadListFood();
+
+        btnPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showAlertDailog();
+            }
+        });
 
 
-
-             }
-         });
-
-        loadFoodList();
 
     }
 
     private void showAlertDailog() {
+
         final AlertDialog.Builder alertdailog = new AlertDialog.Builder(Cart.this);
         alertdailog.setTitle("One more step");
         alertdailog.setMessage("Please enter address");
-
 
         final EditText editAddress = new EditText(Cart.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -94,7 +96,7 @@ public class Cart extends AppCompatActivity {
                         Common.currentUser.getPhone(),
                         Common.currentUser.getPhone(),
                         editAddress.getText().toString(),
-                        txttotalprice.getText().toString(),
+                        txtTotalPrice.getText().toString(),
                         cart
 
                 );
@@ -102,7 +104,7 @@ public class Cart extends AppCompatActivity {
                 requests.child(String.valueOf(System.currentTimeMillis()))
                         .setValue(request);
 
-                new Database(getBaseContext()).cleancart();
+                new Database(getBaseContext()).cleanCart();
                 Toast.makeText(Cart.this, "Thank you , order placed", Toast.LENGTH_SHORT).show();
 
                 finish();
@@ -118,22 +120,26 @@ public class Cart extends AppCompatActivity {
             }
         });
 
-            alertdailog.show();
+        alertdailog.show();
 
     }
 
-    private void loadFoodList() {
 
-        cart = new Database(this).getCarts();
-        adapter = new CartAdapter(cart,this);
+    private  void loadListFood()
+    {
+        cart=new Database(this).getCarts();
+        adapter=new CartAdapter(cart,this);
         recyclerView.setAdapter(adapter);
 
-        int total = 0;
-        for(Order order:cart) total+=(Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
-        Locale locale = new Locale("en","US");
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
-
-        txttotalprice.setText(fmt.format(total));
+        //calculate total price
+        int total=0;
+        for (Order order:cart)
+        {
+            total+=(Integer.parseInt(order.getPrice()))*(Integer.parseInt(order.getQuantity()));
+            Locale locale=new Locale("en","US");
+            NumberFormat fmt=NumberFormat.getCurrencyInstance(locale);
+            txtTotalPrice.setText(String.valueOf(total));
+        }
 
     }
 }
